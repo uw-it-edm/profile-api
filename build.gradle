@@ -1,9 +1,11 @@
 buildscript {
     ext {
         springBootVersion = '2.0.0.M5'
+        springCloudReleaseTrain = 'Finchley.M2'
     }
     repositories {
         jcenter()
+        mavenLocal()
         maven { url 'http://repo.spring.io/snapshot' }
         maven { url 'http://repo.spring.io/milestone' }
         maven { url 'http://dl.bintray.com/maximede/gradle-plugins' }
@@ -31,7 +33,9 @@ apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 
-
+ext {
+    gwsClientVersion = "0.0.1"
+}
 jar {
     baseName = 'profile-api'
 }
@@ -41,15 +45,31 @@ task wrapper(type: Wrapper) {
 
 repositories {
     jcenter()
+    mavenLocal()
     maven { url "http://repo.spring.io/snapshot" }
     maven { url "http://repo.spring.io/milestone" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudReleaseTrain"
+    }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
 
+
+    compile("org.springframework.cloud:spring-cloud-starter-aws")
+
+    compile("edu.uw.edm.gws:gws-client:$gwsClientVersion")
+    compile("edu.uw.edm.gws:gws-client-spring-boot-starter:$gwsClientVersion")
+
+
+    compile("org.projectlombok:lombok")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
@@ -120,6 +140,29 @@ artifactory {
         }
     }
 
+    resolve {
+        repository {
+            // The Artifactory repository key to resolve through
+            repoKey = System.getenv('ARTIFACTORY_RESOLVE_REPO')
+
+            // Username comes from ~/.gradle/gradle.properties
+            def resolveUserName = project.getProperties().get('eaiw.artifactoryResolveUser')
+            if (! resolveUserName?.trim()) {
+                // try to get it from an environment variable
+                resolveUserName = System.getenv("ARTIFACTORY_PUBLISH_USER")
+            }
+
+            username = resolveUserName
+
+            // Password comes from ~/.gradle/gradle.encrypted.properties
+            if (credentials?.propertyMissing(resolveUserName)) {
+                password = credentials[resolveUserName]
+            }else {
+                // try to get it from an environment variable
+                password  = System.getenv("ARTIFACTORY_PUBLISH_PASSWORD")
+            }
+        }
+    }
 }
 
 

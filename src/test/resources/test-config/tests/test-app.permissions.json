@@ -1,0 +1,7 @@
+{
+  "my-app": {
+    "authorizedUWGroups": [
+      "test-group"
+    ]
+  }
+}
