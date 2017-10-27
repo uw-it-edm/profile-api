@@ -12,7 +12,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-before_install: git checkout $(git branch --contains $(git rev-parse HEAD)|tail -n1|tr -d ' ')
+before_install: git checkout $(git branch --contains $(git rev-parse HEAD)|tail -n1|tr -d ' ') || true
 
 
 jdk:
@@ -27,6 +27,7 @@ jobs:
     - stage: deploy
       jdk: openjdk8
       script: ./gradlew build artifactoryPublish
+      if: type = push
 
 
 notifications:
