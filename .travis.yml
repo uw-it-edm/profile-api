@@ -18,7 +18,7 @@ before_install: git checkout $(git branch --contains $(git rev-parse HEAD)|tail 
 jdk:
   - openjdk8
   - oraclejdk8
-  - oraclejdk9
+  #- oraclejdk9
 
 script: ./gradlew build
 
