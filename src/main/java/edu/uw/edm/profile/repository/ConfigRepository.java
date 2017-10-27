@@ -2,6 +2,7 @@ package edu.uw.edm.profile.repository;
 
 import edu.uw.edm.profile.controller.v1.model.ConfigDTO;
 import edu.uw.edm.profile.exceptions.ForbiddenException;
+import edu.uw.edm.profile.exceptions.NotFoundException;
 import edu.uw.edm.profile.security.User;
 
 /**
@@ -9,5 +10,5 @@ import edu.uw.edm.profile.security.User;
  */
 public interface ConfigRepository {
 
-    ConfigDTO getConfigForAppNameConfigNameAndUser(String appName, String configName, User user) throws ForbiddenException;
+    ConfigDTO getConfigForAppNameConfigNameAndUser(String appName, String configName, User user) throws ForbiddenException, NotFoundException;
 }

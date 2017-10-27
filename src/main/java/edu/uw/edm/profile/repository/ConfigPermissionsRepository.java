@@ -2,6 +2,7 @@ package edu.uw.edm.profile.repository;
 
 import java.util.List;
 
+import edu.uw.edm.profile.exceptions.NotFoundException;
 import edu.uw.edm.profile.security.User;
 
 /**
@@ -9,5 +10,5 @@ import edu.uw.edm.profile.security.User;
  */
 public interface ConfigPermissionsRepository {
 
-    List<String> getConfigsForAppAndUser(String appName, User user);
+    List<String> getConfigsForAppAndUser(String appName, User user) throws NotFoundException;
 }

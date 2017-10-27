@@ -3,11 +3,11 @@ package edu.uw.edm.profile.repository.impl;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import edu.uw.edm.profile.exceptions.NotFoundException;
 import edu.uw.edm.profile.model.ConfigPermission;
 import edu.uw.edm.profile.model.ConfigPermissions;
 import edu.uw.edm.profile.properties.ProfileProperties;
@@ -33,7 +33,7 @@ public class ConfigPermissionsRepositoryImpl implements ConfigPermissionsReposit
     }
 
     @Override
-    public List<String> getConfigsForAppAndUser(String appName, User user) {
+    public List<String> getConfigsForAppAndUser(String appName, User user) throws NotFoundException {
         try {
             ConfigPermissions configPermissions = downloadPermissionsForApp(appName);
             log.debug(configPermissions.toString());
@@ -48,7 +48,7 @@ public class ConfigPermissionsRepositoryImpl implements ConfigPermissionsReposit
 
         } catch (IOException e) {
             log.error("Cannot download permissions", e);
-            return Collections.emptyList();
+            throw new NotFoundException("No configs for " + appName);
         }
 
     }
