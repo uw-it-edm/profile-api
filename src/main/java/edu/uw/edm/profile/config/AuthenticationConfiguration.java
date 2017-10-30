@@ -1,6 +1,7 @@
 package edu.uw.edm.profile.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -44,9 +45,14 @@ public class AuthenticationConfiguration {
             http.csrf().disable();
 
             http.authorizeRequests()
-                    .antMatchers("/docs/**").permitAll()
-                    .antMatchers(HttpMethod.OPTIONS).permitAll()
-                    .anyRequest().authenticated();
+                    .requestMatchers(EndpointRequest.to("status", "info", "health"))
+                        .permitAll()
+                    .antMatchers("/docs/**")
+                        .permitAll()
+                    .antMatchers(HttpMethod.OPTIONS)
+                        .permitAll()
+                    .anyRequest()
+                        .authenticated();
 
 
             http.sessionManagement()
