@@ -23,6 +23,7 @@ public class ProfileProperties {
     private App app = new App();
 
     @Data
+    @Validated
     public class App {
         @NotNull
         /**
