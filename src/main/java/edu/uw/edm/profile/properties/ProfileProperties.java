@@ -12,7 +12,7 @@ import lombok.Data;
  * @author Maxime Deravet Date: 10/23/17
  */
 @Component
-@ConfigurationProperties(prefix = "profile")
+@ConfigurationProperties(prefix = "uw.profile")
 @Validated
 @Data
 public class ProfileProperties {
