@@ -1,5 +1,6 @@
 package edu.uw.edm.profile.service.impl;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,13 @@ public class ResourceLoaderObjectDownloaderImpl implements ObjectDownloader {
 
         Resource resource = this.resourceLoader.getResource(resourceURL);
 
-        InputStream inputStream = resource.getInputStream();
+        InputStream inputStream;
+        try {
+            inputStream = resource.getInputStream();
+        } catch (AmazonS3Exception e) {
+            //Hack as AmazonS3Exception is a RuntimeException
+            throw new IOException(e);
+        }
 
 
         return objectMapper.readValue(inputStream, valueType);
