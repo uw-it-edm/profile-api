@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 @Component
-@ConfigurationProperties(prefix = "profile.security")
+@ConfigurationProperties(prefix = "uw.profile.security")
 @Data
 public class SecurityProperties {
 
