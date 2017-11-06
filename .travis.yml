@@ -26,7 +26,7 @@ jobs:
   include:
     - stage: deploy
       jdk: openjdk8
-      script: ./gradlew build artifactoryPublish
+      script: ./gradlew build artifactoryPublish -x test
       if: type = push
 
 
