@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsByNameServiceWra
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +26,26 @@ import edu.uw.edm.profile.security.UserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class AuthenticationConfiguration {
+    private final SecurityProperties securityProperties;
 
+    @Autowired
+    public AuthenticationConfiguration(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .allowedHeaders(securityProperties.getAuthenticationHeaderName())
+                        .allowCredentials(false).maxAge(3600);
+            }
+        };
+    }
 
     @Configuration
     @Order(1)
