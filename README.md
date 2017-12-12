@@ -20,7 +20,7 @@ uw.profile.security.authentication-header-name = authentication-header
 run with : 
 
 ```
-SPRING_CONFIG_LOCATION=./config/ SPRING_PROFILES_ACTIVE=myprofile gradle bootRun
+SPRING_CONFIG_ADDITIONAL_LOCATION=./config/ SPRING_PROFILES_ACTIVE=myprofile ./gradlew bootRun
 ```
 
 
