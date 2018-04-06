@@ -24,8 +24,6 @@ script: ./gradlew build
 
 jobs:
   include:
-    - stage: build and test artifacts
-      script: ./gradlew build
     - stage: deploy
       jdk: openjdk8
       script: ./gradlew build artifactoryPublish -x test
