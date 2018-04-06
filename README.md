@@ -1,3 +1,7 @@
+# Profile API
+Develop: [![Build Status](https://travis-ci.org/uw-it-edm/profile-api.svg?branch=develop)](https://travis-ci.org/uw-it-edm/profile-api) [![Coverage Status](https://coveralls.io/repos/github/uw-it-edm/profile-api/badge.svg?branch=feature%2FaddCoveralls)](https://coveralls.io/github/uw-it-edm/profile-api?branch=develop)
+
+## Instructions
 
 To run locally, you'll probably need a property file with these values set : 
 
