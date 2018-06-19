@@ -1,7 +1,8 @@
 package edu.uw.edm.profile;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 /**
@@ -12,10 +13,13 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
 public class Application {
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
 
-        new SpringApplicationBuilder(Application.class).run(args);
+        SpringApplication app = new SpringApplication(Application.class);
+        app.addListeners(new ApplicationPidFileWriter());
+
+        app.run(args);
 
     }
 }
