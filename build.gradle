@@ -64,9 +64,12 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
+    compile('org.springframework.boot:spring-boot-starter-cache')
 
 
     compile("org.springframework.cloud:spring-cloud-starter-aws")
+
+    compile('com.github.ben-manes.caffeine:caffeine')
 
     compile("edu.uw.edm.gws:gws-client:$gwsClientVersion")
     compile("edu.uw.edm.gws:gws-client-spring-boot-starter:$gwsClientVersion")
