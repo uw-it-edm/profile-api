@@ -12,6 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -31,6 +32,7 @@ import edu.uw.edm.profile.security.KeyManagerCabinet;
 
 
 @Configuration
+@EnableCaching(proxyTargetClass = true)
 public class GeneralConfiguration {
 
     @Bean
