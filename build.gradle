@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.0.3.RELEASE'
-        springCloudReleaseTrain = 'Finchley.SR1'
+        springCloudReleaseTrain = 'Finchley.SR2'
     }
     repositories {
         jcenter()
