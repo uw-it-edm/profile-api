@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.3.RELEASE'
+        springBootVersion = '2.1.6.RELEASE'
         springCloudReleaseTrain = 'Finchley.SR2'
     }
     repositories {
@@ -40,7 +40,7 @@ ext {
     gwsClientVersion = "0.0.1"
 }
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
+    gradleVersion = '4.5.1'
 }
 
 repositories {
@@ -65,7 +65,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile('org.springframework.boot:spring-boot-starter-cache')
-
+    compile('io.micrometer:micrometer-registry-statsd:latest.release')
+    runtime("org.pcollections:pcollections:3.0.1") // required for micrometer, expected fix in micrometer v1.0.6
 
     compile("org.springframework.cloud:spring-cloud-starter-aws")
 
