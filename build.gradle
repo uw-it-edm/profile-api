@@ -39,9 +39,6 @@ sourceCompatibility = 1.8
 ext {
     gwsClientVersion = "0.0.1"
 }
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.5.1'
-}
 
 repositories {
     jcenter()
@@ -65,8 +62,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile('org.springframework.boot:spring-boot-starter-cache')
-    compile('io.micrometer:micrometer-registry-statsd:latest.release')
-    runtime("org.pcollections:pcollections:3.0.1") // required for micrometer, expected fix in micrometer v1.0.6
+    compile('io.micrometer:micrometer-registry-statsd')
+
 
     compile("org.springframework.cloud:spring-cloud-starter-aws")
 
