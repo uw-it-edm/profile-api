@@ -36,7 +36,7 @@ public class AppConfigController {
 
     @GetMapping("/{appName}")
     public ConfigsDTO list(@PathVariable("appName") String appName, @AuthenticationPrincipal User user) throws ForbiddenException, NotFoundException {
-        ConfigsDTO configsDTO = new ConfigsDTO();
+        final ConfigsDTO configsDTO = new ConfigsDTO();
 
         for (String configName : configPermissionsRepository.getConfigsForAppAndUser(appName, user)) {
             configsDTO.add(linkTo(methodOn(AppConfigController.class).getConfig(appName, configName, user)).withRel(configName));
@@ -48,7 +48,7 @@ public class AppConfigController {
 
     @GetMapping(value = "/{appName}/{configName}")
     public ConfigDTO getConfig(@PathVariable("appName") String appName, @PathVariable("configName") String configName, @AuthenticationPrincipal User user) throws ForbiddenException, NotFoundException {
-        ConfigDTO configDTO =
+        final ConfigDTO configDTO =
                 configRepository.getConfigForAppNameConfigNameAndUser(appName, configName, user);
 
         configDTO.add(linkTo(methodOn(AppConfigController.class).getConfig(appName, configName, user)).withSelfRel());
