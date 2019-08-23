@@ -2,9 +2,9 @@ package edu.uw.edm.profile.controller.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.uw.edm.profile.controller.v1.model.ConfigDTO;
@@ -34,19 +34,19 @@ public class AppConfigController {
         this.configRepository = configRepository;
     }
 
-    @RequestMapping("/{appName}")
+    @GetMapping("/{appName}")
     public ConfigsDTO list(@PathVariable("appName") String appName, @AuthenticationPrincipal User user) throws ForbiddenException, NotFoundException {
         ConfigsDTO configsDTO = new ConfigsDTO();
 
-        for (String config : configPermissionsRepository.getConfigsForAppAndUser(appName, user)) {
-            configsDTO.add(linkTo(methodOn(AppConfigController.class).getConfig(appName, config, user)).withRel(config));
+        for (String configName : configPermissionsRepository.getConfigsForAppAndUser(appName, user)) {
+            configsDTO.add(linkTo(methodOn(AppConfigController.class).getConfig(appName, configName, user)).withRel(configName));
         }
 
         return configsDTO;
     }
 
 
-    @RequestMapping(value = "/{appName}/{configName}", method = RequestMethod.GET)
+    @GetMapping(value = "/{appName}/{configName}")
     public ConfigDTO getConfig(@PathVariable("appName") String appName, @PathVariable("configName") String configName, @AuthenticationPrincipal User user) throws ForbiddenException, NotFoundException {
         ConfigDTO configDTO =
                 configRepository.getConfigForAppNameConfigNameAndUser(appName, configName, user);
