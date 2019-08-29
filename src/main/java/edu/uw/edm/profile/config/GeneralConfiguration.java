@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -74,6 +75,11 @@ public class GeneralConfiguration {
     @Primary
     public RestTemplate restTemplate(@Qualifier("httpClient") HttpClient httpClient) {
         return new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
+    }
+
+    @Bean
+    ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
     }
 
 
