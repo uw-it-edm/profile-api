@@ -16,6 +16,7 @@ import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.hateoas.mvc.TypeConstrainedMappingJackson2HttpMessageConverter;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +35,8 @@ import edu.uw.edm.gws.GroupsWebServiceClient;
 import edu.uw.edm.profile.controller.v1.model.ConfigDTO;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -74,6 +78,27 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
 
     @MockBean
     private GroupsWebServiceClient groupsWebServiceClient;
+
+    @Test
+    public void shouldUseXForwardedHostHeaderTest() {
+        gwsShouldReturnGroups(groupsWebServiceClient, "test-group", "test-group2");
+
+        HttpEntity<String> entity = getHeaders("toto");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.putAll(getHeaders("toto").getHeaders().);
+        headers.set("X-Forwarded-Host", "proxy.host.com");
+        headers.set("X-Forwarded-Port", "443");
+        headers.set("X-Forwarded-Proto", "https");
+
+        entity = new HttpEntity<>(headers);
+
+        final ResponseEntity<ConfigDTO> response = this.restTemplate.exchange("/v1/app/test-app", HttpMethod.GET, entity, ConfigDTO.class, new HashMap<>());
+        final Link link = response.getBody().getLink("my-app");
+        assertThat(link, is(not(nullValue())));
+        assertThat(link.getHref(), is(equalTo("https://proxy.host.com/v1/app/test-app/my-app")));
+
+    }
 
     @Test
     public void shouldReturnAListOfConfigTest() {
