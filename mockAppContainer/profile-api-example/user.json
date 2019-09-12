@@ -1,0 +1,12 @@
+{
+  "userName": "myUser",
+  "userGroups": [
+  "u_my_group"
+    
+  ],
+  "_links": {
+  "self": {
+  "href": "https://apps.dev.concert.uw.edu/profile/v1/user/"
+  }
+  }
+  }

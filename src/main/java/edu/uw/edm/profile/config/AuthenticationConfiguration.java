@@ -66,7 +66,7 @@ public class AuthenticationConfiguration {
             http.csrf().disable();
 
             http.authorizeRequests()
-                    .requestMatchers(EndpointRequest.to("status", "info", "health"))
+                    .requestMatchers(EndpointRequest.toAnyEndpoint())
                         .permitAll()
                     .antMatchers("/docs/**")
                         .permitAll()

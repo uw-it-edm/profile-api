@@ -1,6 +1,7 @@
 package edu.uw.edm.profile.controller.v1;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/v1/user")
 public class UserInfoController {
 
-    @RequestMapping(value = "")
+    @GetMapping(value = "")
     public UserDTO getUserInfo(@AuthenticationPrincipal User user) {
 
 

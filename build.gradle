@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.3.RELEASE'
-        springCloudReleaseTrain = 'Finchley.SR2'
+        springBootVersion = '2.1.7.RELEASE'
+        springCloudReleaseTrain = 'Greenwich.SR2'
     }
     repositories {
         jcenter()
@@ -13,14 +13,14 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
         classpath "edu.uw.concert:gradle-gitflow:0.3.0"
         classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.2"
-        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.8.1")
-        classpath("nu.studer:gradle-credentials-plugin:1.0.4")
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:4.9.1")
+        classpath("nu.studer:gradle-credentials-plugin:1.0.7")
     }
 }
 
 plugins {
     id 'jacoco'
-    id 'com.github.kt3k.coveralls' version '2.6.3'
+    id 'com.github.kt3k.coveralls' version '2.8.4'
 }
 
 apply plugin: 'java'
@@ -38,9 +38,6 @@ sourceCompatibility = 1.8
 
 ext {
     gwsClientVersion = "0.0.1"
-}
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
 }
 
 repositories {
@@ -65,6 +62,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile('org.springframework.boot:spring-boot-starter-cache')
+    compile('io.micrometer:micrometer-registry-statsd')
+    runtime("org.pcollections:pcollections:3.1.0") // required for micrometer, expected fix in micrometer v1.0.6 (upgrading spring may fix this)
 
 
     compile("org.springframework.cloud:spring-cloud-starter-aws")
