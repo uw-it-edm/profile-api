@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.1.7.RELEASE'
-        springCloudReleaseTrain = 'Greenwich.SR2'
+        springCloudReleaseTrain = 'Hoxton.SR1'
     }
     repositories {
         jcenter()
