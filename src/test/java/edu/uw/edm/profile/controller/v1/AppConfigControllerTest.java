@@ -86,7 +86,7 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
         HttpEntity<String> entity = getHeaders("toto");
 
         HttpHeaders headers = new HttpHeaders();
-        headers.putAll(getHeaders("toto").getHeaders().);
+        headers.putAll(getHeaders("toto").getHeaders());
         headers.set("X-Forwarded-Host", "proxy.host.com");
         headers.set("X-Forwarded-Port", "443");
         headers.set("X-Forwarded-Proto", "https");
