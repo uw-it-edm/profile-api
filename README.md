@@ -38,21 +38,21 @@ It uses a .json file for each 'application' that has UI configuration settings f
 ```
 - Add the following settings:
 
-```sh
+```
 uw.profile.app.configRootFolderResource = file:///<your-config-folder>/
 uw.profile.app.permissionsFileName = permissions.json
 uw.profile.environment = dev
 
-uw.profile.security.keystore-location = <your-keystore-location>
-uw.profile.security.keystore-password= <your-keystore-pwd>
+uw.profile.security.keystore-location = <path/to/keystore/location.jks>
+uw.profile.security.keystore-password = <keystore-pwd>
 uw.profile.security.authentication-header-name = auth-header
 
-cloud.aws.credentials.instanceProfile= false
-cloud.aws.region.auto= false
-cloud.aws.region.static= eu-west-1
+cloud.aws.credentials.instanceProfile = false
+cloud.aws.region.auto = false
+cloud.aws.region.static = us-west-2
 cloud.aws.stack.auto = false
 ```
-Note: if you ran the [workstation-setup script](https://github.com/uw-it-edm/workstation-setup), then the configRootFolderResouce will be `file:///Users/<username>/edm-data/uwit-concert-content-services-ui-config/` and the keystore-location will be `/Users/<username>/edm-data/uwit-concert-shared-secrets/dev/apps/uwitconcert--dev-s-uw-edu.jks`. The keystore-password you will have to get from a team member.
+Note: if you ran the [workstation-setup script](https://github.com/uw-it-edm/workstation-setup/blob/master/configuration/edm-team), then under your `~/edm-data` folder, you can find the `content-services-ui-config` that you can use for the `configRootFolderResource` setting. Similarly, you can locate the .jks file that contains the certificate to communicate with UW's servers. The team's shared LastPass should have the password.
 
 - Run the project specifying the location of your local `.properties` file. For example:
 ```
