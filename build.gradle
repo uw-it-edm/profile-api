@@ -63,7 +63,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('io.micrometer:micrometer-registry-statsd')
-    runtime("org.pcollections:pcollections:3.1.0") // required for micrometer, expected fix in micrometer v1.0.6 (upgrading spring may fix this)
+    runtime("org.pcollections:pcollections:3.1.3") // required for micrometer, expected fix in micrometer v1.0.6 (upgrading spring may fix this)
 
 
     compile("org.springframework.cloud:spring-cloud-starter-aws")
