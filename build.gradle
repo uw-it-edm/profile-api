@@ -6,7 +6,7 @@ buildscript {
     repositories {
         jcenter()
         mavenLocal()
-        maven { url 'http://dl.bintray.com/maximede/gradle-plugins' }
+        maven { url 'https://dl.bintray.com/maximede/gradle-plugins' }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
@@ -43,7 +43,7 @@ ext {
 repositories {
     jcenter()
     mavenLocal()
-    maven { url "http://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 bootJar {
@@ -99,7 +99,7 @@ publishing {
 
                 asNode().appendNode('repositories').appendNode('repository')
                         .appendNode('id', 'spring-releases').parent()
-                        .appendNode('url', 'http://repo.spring.io/libs-release')
+                        .appendNode('url', 'https://repo.spring.io/libs-release')
             }
         }
     }
