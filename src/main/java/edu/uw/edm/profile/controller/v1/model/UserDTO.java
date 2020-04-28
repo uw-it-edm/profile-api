@@ -1,6 +1,6 @@
 package edu.uw.edm.profile.controller.v1.model;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import lombok.Singular;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO extends ResourceSupport {
+public class UserDTO extends RepresentationModel {
 
     private String userName;
 
