@@ -15,8 +15,8 @@ import edu.uw.edm.profile.repository.ConfigPermissionsRepository;
 import edu.uw.edm.profile.repository.ConfigRepository;
 import edu.uw.edm.profile.security.User;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * @author Maxime Deravet Date: 10/13/17
