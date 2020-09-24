@@ -12,9 +12,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.ResourceSupport;
-import org.springframework.hateoas.hal.Jackson2HalModule;
-import org.springframework.hateoas.mvc.TypeConstrainedMappingJackson2HttpMessageConverter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
+import org.springframework.hateoas.server.mvc.TypeConstrainedMappingJackson2HttpMessageConverter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,24 +24,21 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import edu.uw.edm.gws.GroupsWebServiceClient;
 import edu.uw.edm.profile.controller.v1.model.ConfigDTO;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
 
 /**
@@ -57,7 +54,7 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
         public RestTemplateBuilder restTemplateBuilder() {
             final RestTemplate restTemplate = new RestTemplate();
             //replace default MappingJackson2HttpMessageConverter with one that supports HATEOAS
-            final List<HttpMessageConverter<?>> existingMessageConverts = restTemplate.getMessageConverters().stream().filter( converter -> !(converter instanceof MappingJackson2HttpMessageConverter)).collect(Collectors.toList());
+            final List<HttpMessageConverter<?>> existingMessageConverts = restTemplate.getMessageConverters().stream().filter(converter -> !(converter instanceof MappingJackson2HttpMessageConverter)).collect(Collectors.toList());
             existingMessageConverts.add(getHalMessageConverter());
 
             return new RestTemplateBuilder().additionalMessageConverters(existingMessageConverts);
@@ -66,7 +63,7 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
         private HttpMessageConverter getHalMessageConverter() {
             final ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new Jackson2HalModule());
-            final MappingJackson2HttpMessageConverter halConverter = new TypeConstrainedMappingJackson2HttpMessageConverter(ResourceSupport.class);
+            final MappingJackson2HttpMessageConverter halConverter = new TypeConstrainedMappingJackson2HttpMessageConverter(RepresentationModel.class);
             halConverter.setSupportedMediaTypes(Arrays.asList(HAL_JSON));
             halConverter.setObjectMapper(objectMapper);
             return halConverter;
@@ -94,9 +91,9 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
         entity = new HttpEntity<>(headers);
 
         final ResponseEntity<ConfigDTO> response = this.restTemplate.exchange("/v1/app/test-app", HttpMethod.GET, entity, ConfigDTO.class, new HashMap<>());
-        final Link link = response.getBody().getLink("my-app");
-        assertThat(link, is(not(nullValue())));
-        assertThat(link.getHref(), is(equalTo("https://proxy.host.com/v1/app/test-app/my-app")));
+        final Optional<Link> optionalLink = response.getBody().getLink("my-app");
+        assertTrue(optionalLink.isPresent());
+        assertThat(optionalLink.get().getHref(), is(equalTo("https://proxy.host.com/v1/app/test-app/my-app")));
 
     }
 
@@ -109,9 +106,9 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
 
         final ResponseEntity<ConfigDTO> response = this.restTemplate.exchange("/v1/app/test-app", HttpMethod.GET, entity, ConfigDTO.class, new HashMap<>());
 
-        final Link link = response.getBody().getLink("my-app");
-        assertThat(link, is(not(nullValue())));
-        assertThat(link.getHref(), endsWith("v1/app/test-app/my-app"));
+        final Optional<Link> optionalLink  = response.getBody().getLink("my-app");
+        assertTrue(optionalLink.isPresent());
+        assertThat(optionalLink.get().getHref(), endsWith("v1/app/test-app/my-app"));
 
     }
 
@@ -132,9 +129,10 @@ public class AppConfigControllerTest extends AbstractProfileControllerTest {
 
         final ResponseEntity<ConfigDTO> response = this.restTemplate.exchange("/v1/app/test-app/my-app", HttpMethod.GET, entity, ConfigDTO.class, new HashMap<>());
         final ConfigDTO configDTO = response.getBody();
-        final Link link = configDTO.getLink("self");
+        final Optional<Link> optionalLink = configDTO.getLink("self");
         assertThat(configDTO.getProperties().get("foo"), is(equalTo("bar")));
-        assertThat(link.getHref(), endsWith("v1/app/test-app/my-app"));
+        assertTrue(optionalLink.isPresent());
+        assertThat(optionalLink.get().getHref(), endsWith("v1/app/test-app/my-app"));
     }
 
     @Test
