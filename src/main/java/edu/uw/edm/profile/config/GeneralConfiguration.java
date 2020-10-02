@@ -46,7 +46,7 @@ public class GeneralConfiguration {
     }
 
     @Bean
-    public PoolingHttpClientConnectionManager connectionManager(final KeyManagerCabinet cabinet) throws KeyManagementException, NoSuchAlgorithmException {
+    public PoolingHttpClientConnectionManager connectionManager(@Qualifier("profile-api") final KeyManagerCabinet cabinet) throws KeyManagementException, NoSuchAlgorithmException {
         TrustManager[] trustManagers = cabinet.getTrustManagers();
 
 
@@ -65,7 +65,7 @@ public class GeneralConfiguration {
         return new PoolingHttpClientConnectionManager(sfr);
     }
 
-    @Bean
+    @Bean("profile-api")
     public KeyManagerCabinet keyManagerCabinet(SecurityProperties securityProperties) throws Exception {
         return new KeyManagerCabinet.Builder(securityProperties).build();
     }
