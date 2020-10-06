@@ -71,7 +71,7 @@ public class GeneralConfiguration {
     }
 
 
-    @Bean
+    @Bean("profile-api")
     @Primary
     public RestTemplate restTemplate(@Qualifier("httpClient") HttpClient httpClient) {
         return new RestTemplate(new HttpComponentsClientHttpRequestFactory(httpClient));
